@@ -46,11 +46,13 @@
 			<version>${spring.jdbc.version}</version>
 		</dependency>
 
+		<!--
 		<dependency>
 			<groupId>hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>${hsql.version}</version>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>com.oracle</groupId>
