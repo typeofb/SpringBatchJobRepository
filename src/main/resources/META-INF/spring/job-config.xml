@@ -46,7 +46,7 @@
 	<bean id="parallelPartitioner" class="com.javacodegeeks.example.job.step2.ParallelPartitioner" />
 	<step id="parallelStep" xmlns="http://www.springframework.org/schema/batch">
 		<tasklet transaction-manager="transactionManager">
-			<chunk reader="mainReader" processor="mainProcessor" writer="mainWriter" commit-interval="10" skip-limit="1000000">
+			<chunk reader="mainReader" processor="mainProcessor" writer="mainWriter" commit-interval="1000" skip-limit="1000000">
 				<skippable-exception-classes>
 					<include class="java.lang.Exception" />
 				</skippable-exception-classes>
