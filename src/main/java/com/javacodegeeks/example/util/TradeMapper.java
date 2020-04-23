@@ -6,6 +6,7 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.RowMapper;
 
 public class TradeMapper implements RowMapper<Trade> {
+	
 	public Trade mapRow(ResultSet rs, int rowNum) throws SQLException {
 		Trade Trade = new Trade();
 		Trade.setId(rs.getLong("id"));

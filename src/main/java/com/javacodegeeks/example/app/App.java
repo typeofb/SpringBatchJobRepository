@@ -8,8 +8,9 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class App {
-	private static ApplicationContext ctx;
-
+	
+	static ApplicationContext ctx;
+	
 	public static void main(String[] args) {
 		String[] str = { "META-INF/spring/context-config.xml", "META-INF/spring/job-config.xml" };
 		ctx = new ClassPathXmlApplicationContext(str);

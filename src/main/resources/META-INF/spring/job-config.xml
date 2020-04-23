@@ -17,14 +17,49 @@
 	http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
 	http://www.springframework.org/schema/task
 	http://www.springframework.org/schema/task/spring-task.xsd">
-
+	
 	<job id="myJob" xmlns="http://www.springframework.org/schema/batch" restartable="true">
-		<step id="step1" allow-start-if-complete="true">
+		<step id="step1" next="stepDecision">
 			<tasklet ref="myTasklet" />
 		</step>
+		<decision id="stepDecision" decider="myDecider">
+			<next on="CONTINUE" to="step2" />
+			<end on="COMPLETED" />
+			<fail on="FAILED" />
+		</decision>
+		<step id="step2">
+			<partition step="parallelStep" partitioner="parallelPartitioner">
+				<handler grid-size="3" task-executor="taskExecutor" />
+			</partition>
+		</step>
 	</job>
-
-	<bean id="myTasklet" class="com.javacodegeeks.example.util.MyTasklet">
+	
+	<bean id="myTasklet" class="com.javacodegeeks.example.job.step1.MyTasklet">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
+	
+	<bean id="myDecider" class="com.javacodegeeks.example.job.stepDecision.MyDecider">
+		<property name="sqlSessionTemplate" ref="sqlSessionTemplate" />
+	</bean>
+	
+	<bean id="taskExecutor" class="org.springframework.core.task.SimpleAsyncTaskExecutor" />
+	<bean id="parallelPartitioner" class="com.javacodegeeks.example.job.step2.ParallelPartitioner" />
+	<step id="parallelStep" xmlns="http://www.springframework.org/schema/batch">
+		<tasklet transaction-manager="transactionManager">
+			<chunk reader="mainReader" processor="mainProcessor" writer="mainWriter" commit-interval="10" skip-limit="1000000">
+				<skippable-exception-classes>
+					<include class="java.lang.Exception" />
+				</skippable-exception-classes>
+			</chunk>
+		</tasklet>
+	</step>
+	<bean id="mainReader" class="com.javacodegeeks.example.job.step2.MainReader" scope="step">
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+		<property name="queryId" value="Trade.selectTrade" />
+	</bean>
+	<bean id="mainProcessor" class="com.javacodegeeks.example.job.step2.MainProcessor" scope="step">
+	</bean>
+	<bean id="mainWriter" class="com.javacodegeeks.example.job.step2.MainWriter" scope="step">
+		<property name="sqlSessionTemplate" ref="batchSqlSessionTemplate" />
+	</bean>	
 </beans>

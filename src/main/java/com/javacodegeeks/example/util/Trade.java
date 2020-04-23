@@ -1,6 +1,7 @@
 package com.javacodegeeks.example.util;
 
 public class Trade {
+
 	long id;
 	String stock;
 	String time;
@@ -46,7 +47,7 @@ public class Trade {
 	public void setShares(int shares) {
 		this.shares = shares;
 	}
-	
+
 	@Override
 	public String toString() {
 		return getId() + "|" + getStock() + "|" + getTime() + "|" + getPrice() + "|" + getShares();
