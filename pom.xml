@@ -7,7 +7,7 @@
 
 	<properties>
 		<spring.version>4.0.5.RELEASE</spring.version>
-		<spring.batch.version>3.0.4.RELEASE</spring.batch.version>
+		<spring.batch.version>4.2.2.RELEASE</spring.batch.version>
 		<spring.jdbc.version>4.0.5.RELEASE</spring.jdbc.version>
 		<hsql.version>1.8.0.7</hsql.version>
 		<oracle.driver.version>11.2.0.3</oracle.driver.version>
